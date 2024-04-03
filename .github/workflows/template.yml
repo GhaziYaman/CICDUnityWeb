@@ -48,7 +48,7 @@ jobs:
       - run: echo "Built the game for ${{ steps.buildStep.outputs.buildVersion }} "
       - uses: actions/upload-artifact@v3
         with:
-          name: Build-${{ matrix.targetPlatform }}
+          name: Build-${{ matrix.targetPlatform }}-${{ steps.buildStep.outputs.buildVersion }}
           path: build/${{ matrix.targetPlatform }}
   UploadToBuilds:
     strategy:
@@ -62,14 +62,10 @@ jobs:
         with:
           ref: gh-pages
 
-      - name: Create directory for artifact
-        run: mkdir -p custompath
-
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: Build-${{ matrix.targetPlatform }}
-          path: custompath
 
       - name: Commit and push
         run: |
