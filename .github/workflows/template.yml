@@ -50,14 +50,6 @@ jobs:
         with:
           name: Build-${{ matrix.targetPlatform }}-${{ steps.buildStep.outputs.buildVersion }}
           path: build/${{ matrix.targetPlatform }}
-  UploadToBuilds:
-    strategy:
-      matrix:
-        targetPlatform:
-          - WebGL
-    runs-on: ubuntu-latest
-    needs: buildWebGL
-    steps:
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
@@ -65,7 +57,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: Build-${{ matrix.targetPlatform }}
+          name: Build-${{ matrix.targetPlatform }}-${{ steps.buildStep.outputs.buildVersion }}
 
       - name: Commit and push
         run: |
