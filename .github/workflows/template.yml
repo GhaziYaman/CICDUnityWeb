@@ -53,7 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: "buildBranch"
+          ref: gh-pages
 
       - name: Create directory for artifact
         run: mkdir -p custompath
