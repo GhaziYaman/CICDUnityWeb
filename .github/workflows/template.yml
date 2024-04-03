@@ -65,7 +65,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: Build-${{ matrix.targetPlatform }}-${{ jobs.buildWebGL.outputs.buildStep.outputs.buildVersion }}
+          name: Build-${{ matrix.targetPlatform }}-${{ needs.buildWebGL.outputs.buildStep.outputs.buildVersion }}
 
       - name: Commit and push
         run: |
