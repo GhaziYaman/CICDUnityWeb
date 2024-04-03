@@ -66,9 +66,10 @@ jobs:
         with:
           ref: gh-pages
 
-      - uses: actions/download-artifact@v4
       - name: Download artifact
-        run: ls -R
+        uses: actions/download-artifact@v4
+        with:
+          name: Build-${{ matrix.targetPlatform }}-${{ needs.saveVersionStep.outputs.buildVersion }}
 
       - name: Commit and push
         run: |
