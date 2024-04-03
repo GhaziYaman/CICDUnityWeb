@@ -2,6 +2,11 @@ name: Test
 
 on: [push]
 
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
 jobs:
   testAllModes:
     name: Test in ${{ matrix.testMode }}
