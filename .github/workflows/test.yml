@@ -8,6 +8,7 @@ jobs:
           ref: gh-pages
       - run: |
           mkdir -p build-0.1.2
+          echo "0.1.2" > build-0.1.2/version.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
