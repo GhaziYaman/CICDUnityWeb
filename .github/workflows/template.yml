@@ -1,9 +1,9 @@
 name: GameCI Template 🎮
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -25,6 +25,8 @@ jobs:
       matrix:
         targetPlatform:
           - WebGL
+    outputs:
+      buildVersion: ${{ steps.saveVersionStep.outputs.buildVersion }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,6 +48,8 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
       - run: echo "Built the game for ${{ steps.buildStep.outputs.buildVersion }} "
+      - id: saveVersionStep
+        run: echo "buildVersion=${{ steps.buildStep.outputs.buildVersion }}" >> $GITHUB_OUTPUT
       - uses: actions/upload-artifact@v3
         with:
           name: Build-${{ matrix.targetPlatform }}-${{ steps.buildStep.outputs.buildVersion }}
@@ -65,7 +69,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: Build-${{ matrix.targetPlatform }}-${{ needs.buildWebGL.outputs.buildStep.outputs.buildVersion }}
+          name: Build-${{ matrix.targetPlatform }}-${{ needs.saveVersionStep.outputs.buildVersion }}
 
       - name: Commit and push
         run: |
