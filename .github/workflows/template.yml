@@ -72,7 +72,7 @@ jobs:
         run: mv build/WebGL/* Build-${{ steps.buildWebGL.outputs.test }}
       - name: Configure Git
         run: |
-          git config --global user.email "ghazi.y.97@hotmail.com'
+          git config --global user.email "ghazi.y.97@hotmail.com"
           git config --global user.name "GhaziYaman"
       - name: Add files
         run: git add .
