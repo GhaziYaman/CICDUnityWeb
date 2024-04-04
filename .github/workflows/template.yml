@@ -48,12 +48,12 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
       - run: echo "Built the game for ${{ steps.buildStep.outputs.buildVersion }} "
-      - id: saveVersionStep
-        run: echo "test=${{ steps.buildStep.outputs.buildVersion }}" >> $GITHUB_OUTPUT
       - uses: actions/upload-artifact@v3
         with:
           name: Build-${{ matrix.targetPlatform }}-${{ steps.buildStep.outputs.buildVersion }}
           path: build/${{ matrix.targetPlatform }}
+      - id: saveVersionStep
+        run: echo "test=${{ steps.buildStep.outputs.buildVersion }}" >> $GITHUB_OUTPUT
   UploadToBuilds:
     strategy:
       matrix:
@@ -69,8 +69,11 @@ jobs:
 
       - name: Download artifact
         uses: actions/download-artifact@v4
-        with:
-          name: Build-${{ matrix.targetPlatform }}-${{ needs.buildWebGL.outputs.test }}
+        
+      - name: List Files
+        run: ls -R
+        # with:
+        #   name: Build-${{ matrix.targetPlatform }}-${{ needs.buildWebGL.outputs.test }}
 
       - name: Commit and push
         run: |
