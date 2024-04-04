@@ -66,6 +66,7 @@ jobs:
           - WebGL
     runs-on: ubuntu-latest
     # needs: buildWebGL
+    needs: AddValue
     steps:
       - run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v2
