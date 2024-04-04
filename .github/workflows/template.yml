@@ -70,6 +70,10 @@ jobs:
         run: mkdir -p Build-${{ steps.buildWebGL.outputs.test }}
       - name: Move build files
         run: mv build/WebGL/* Build-${{ steps.buildWebGL.outputs.test }}
+      - name: Configure Git
+        run: |
+          git config --global user.email "ghazi.y.97@hotmail.com'
+          git config --global user.name "GhaziYaman"
       - name: Add files
         run: git add .
       - name: Configure Git merge strategy
