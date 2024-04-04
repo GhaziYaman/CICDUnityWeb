@@ -62,7 +62,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Configure Git merge strategy
-        run: git config pull.rebase false
+        run: |
+          git config --global user.email "ghazi.y.97@hotmail.com"
+          git config --global user.name "GhaziYaman"
+          git config pull.rebase false
       - name: Pull changes from remote gh-pages branch
         run: git pull origin gh-pages --allow-unrelated-histories
       - name: Download artifact
