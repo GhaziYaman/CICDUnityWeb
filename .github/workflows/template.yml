@@ -16,6 +16,11 @@ jobs:
       - name: Fail - No license ☠️
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
         run: exit 1
+  AddValue:
+    runs-on: ubuntu-latest
+    steps:
+      - id: saveVersionStep
+        run: echo "test=${{ steps.buildStep.outputs.buildVersion }}" >> $GITHUB_OUTPUT
   # buildWebGL:
   #   needs: checkLicense
   #   name: Build for ${{ matrix.targetPlatform }}
