@@ -54,35 +54,20 @@ jobs:
           path: build/${{ matrix.targetPlatform }}
       - id: saveVersionStep
         run: echo "test=${{ steps.buildStep.outputs.buildVersion }}" >> $GITHUB_OUTPUT
-
-  UploadToBuilds:
-    strategy:
-      matrix:
-        targetPlatform:
-          - WebGL
-    runs-on: ubuntu-latest
+  uploadToGHPages:
     needs: buildWebGL
+    name: Upload to gh-pages branch
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-      - run: ls -R
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v2
         with:
-          name: Build-${{ matrix.targetPlatform }}-${{ needs.buildWebGL.outputs.test }}
-          path: build/${{ matrix.targetPlatform }}
-      - run: ls -R
-      - uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-
-        # with:
-        #   name: Build-${{ matrix.targetPlatform }}-${{ needs.buildWebGL.outputs.test }}
-
-      - name: Commit and push
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "Add artifact for ${{ matrix.targetPlatform }}"
-          git push
+          name: Build-WebGL-${{ needs.buildWebGL.outputs.test }}
+      - run: git checkout -B gh-pages
+      - run: git rm -r .
+      - run: cp -r ${{ github.workspace }}/build/WebGL/* .
+      - run: git add .
+      - run: git commit -m "Add WebGL build"
+      - run: git push -f origin gh-pages
