@@ -75,7 +75,7 @@ jobs:
       - name: Create directory
         run: mkdir -p Build-${{ needs.buildWebGL.outputs.test }}
       - name: Move build files
-        run: mv build/WebGL/* Build-${{ needs.buildWebGL.outputs.test }}
+        run: mv build/WebGL/WebGL/* Build-${{ needs.buildWebGL.outputs.test }}
 
       - name: Commit and push
         run: |
