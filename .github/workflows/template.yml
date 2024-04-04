@@ -18,9 +18,11 @@ jobs:
         run: exit 1
   AddValue:
     runs-on: ubuntu-latest
+    outputs:
+      test: ${{ steps.saveVersionStep.outputs.test }}
     steps:
       - id: saveVersionStep
-        run: echo "test=${{ steps.buildStep.outputs.buildVersion }}" >> $GITHUB_OUTPUT
+        run: echo "test=batata" >> $GITHUB_OUTPUT
   # buildWebGL:
   #   needs: checkLicense
   #   name: Build for ${{ matrix.targetPlatform }}
@@ -76,7 +78,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: Build-${{ matrix.targetPlatform }}-${{ needs.saveVersionStep.outputs.buildVersion }}
+          name: Build-${{ matrix.targetPlatform }}-${{ needs.AddValue.outputs.test }}
 
       - name: Commit and push
         run: |
