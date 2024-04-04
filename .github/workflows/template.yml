@@ -85,7 +85,7 @@ jobs:
         run: git add .
       - name: Commit changes
         run: |
-          git config --global user.email "ghazi.y.97@hotmail.com'
+          git config --global user.email "ghazi.y.97@hotmail.com"
           git config --global user.name "GhaziYaman"
           git commit -m "Add WebGL build version ${GITHUB_RUN_NUMBER}"
       - name: Push changes
