@@ -61,6 +61,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Configure Git merge strategy
+        run: git config pull.rebase false
+      - name: Pull changes from remote gh-pages branch
+        run: git pull origin gh-pages --allow-unrelated-histories
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
@@ -76,10 +80,6 @@ jobs:
           git config --global user.name "GhaziYaman"
       - name: Add files
         run: git add .
-      - name: Configure Git merge strategy
-        run: git config pull.rebase false
-      - name: Pull changes from remote gh-pages branch
-        run: git pull origin gh-pages --allow-unrelated-histories
       - name: Commit changes
         run: |
           git config --global user.email "ghazi.y.97@hotmail.com'
