@@ -72,6 +72,8 @@ jobs:
         run: mv build/WebGL/* Build-${{ steps.buildWebGL.outputs.test }}
       - name: Add files
         run: git add .
+      - name: Configure Git merge strategy
+        run: git config pull.rebase false
       - name: Pull changes from remote gh-pages branch
         run: git pull origin gh-pages --allow-unrelated-histories
       - name: Commit changes
