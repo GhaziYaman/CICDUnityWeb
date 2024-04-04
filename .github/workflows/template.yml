@@ -78,8 +78,8 @@ jobs:
         run: git pull origin gh-pages --allow-unrelated-histories
       - name: Commit changes
         run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "GitHub Actions"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git commit -m "Add WebGL build version ${GITHUB_RUN_NUMBER}"
       - name: Push changes
         uses: ad-m/github-push-action@master
