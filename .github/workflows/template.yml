@@ -65,9 +65,20 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Build-WebGL-${{ needs.buildWebGL.outputs.test }}
-      - run: git checkout -B gh-pages
-      - run: git rm -r .
-      - run: cp -r ${{ github.workspace }}/build/WebGL/* .
-      - run: git add .
-      - run: git commit -m "Add WebGL build"
-      - run: git push -f origin gh-pages
+          path: build/WebGL
+      - name: Create directory
+        run: mkdir -p Build-${{ steps.buildWebGL.outputs.test }}
+      - name: Move build files
+        run: mv build/WebGL/* Build-${{ steps.buildWebGL.outputs.test }}
+      - name: Add files
+        run: git add .
+      - name: Commit changes
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git commit -m "Add WebGL build version ${GITHUB_RUN_NUMBER}"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
