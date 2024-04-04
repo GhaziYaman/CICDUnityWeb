@@ -72,6 +72,8 @@ jobs:
         run: mv build/WebGL/* Build-${{ steps.buildWebGL.outputs.test }}
       - name: Add files
         run: git add .
+      - name: Pull changes from remote gh-pages branch
+        run: git pull origin gh-pages --allow-unrelated-histories
       - name: Commit changes
         run: |
           git config --global user.email "github-actions@github.com"
