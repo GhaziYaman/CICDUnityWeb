@@ -69,7 +69,7 @@ jobs:
         targetPlatform:
           - WebGL
     runs-on: ubuntu-latest
-    needs: buildWebGL
+    # needs: buildWebGL
     steps:
       - run: ls -R
       - run: echo "$GITHUB_CONTEXT"
