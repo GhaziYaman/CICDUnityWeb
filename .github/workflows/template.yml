@@ -1,9 +1,9 @@
 name: GameCI Template 🎮
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -56,18 +56,17 @@ jobs:
         run: echo "test=${{ steps.buildStep.outputs.buildVersion }}" >> $GITHUB_OUTPUT
   uploadToGHPages:
     needs: buildWebGL
-    name: Upload to gh-pages branch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Configure Git merge strategy
+        with:
+          ref: gh-pages
+      - name: Configure Git
         run: |
-          git config --global user.email "ghazi.y.97@hotmail.com"
-          git config --global user.name "GhaziYaman"
-          git config pull.rebase false
-      - name: Pull changes from remote gh-pages branch
-        run: git pull origin gh-pages --allow-unrelated-histories
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
@@ -77,19 +76,9 @@ jobs:
         run: mkdir -p Build-${{ steps.buildWebGL.outputs.test }}
       - name: Move build files
         run: mv build/WebGL/* Build-${{ steps.buildWebGL.outputs.test }}
-      - name: Configure Git
+
+      - name: Commit and push
         run: |
-          git config --global user.email "ghazi.y.97@hotmail.com"
-          git config --global user.name "GhaziYaman"
-      - name: Add files
-        run: git add .
-      - name: Commit changes
-        run: |
-          git config --global user.email "ghazi.y.97@hotmail.com"
-          git config --global user.name "GhaziYaman"
-          git commit -m "Add WebGL build version ${GITHUB_RUN_NUMBER}"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
+          git add .
+          git commit -m "Add build"
+          git push
